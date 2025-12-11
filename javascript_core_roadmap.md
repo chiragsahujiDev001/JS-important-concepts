@@ -796,6 +796,7 @@ Working on above code :-
       ```
   
   4. Promise.any()
+     
      Waits for the first fulfilled promise.
      - Ignores rejections
      - If all promises reject → rejects with AggregateError
@@ -888,16 +889,21 @@ setTimeout(() => {
   1. call()
   - call() is a built-in method available on every JavaScript function.
   - It allows you to manually set the value of this and invoke the function immediately.
-        1. Borrowing methods between objects
-        - You can use one object’s method on another object.
-        2. Controlling this inside a function
-        - Helps when the function is not inside an object, or context is lost.
-        3. Using constructor functions on existing objects
-        - Allows reusing initialization logic.
-        4. Inheritance / Polymorphism
-        - Used to implement classical or functional inheritance.
-        5. Avoiding code duplication
-        - E.g., borrow array methods for array-like objects.
+    1. Borrowing methods between objects
+
+      You can use one object’s method on another object.
+    2. Controlling this inside a function
+
+      Helps when the function is not inside an object, or context is lost.
+    3. Using constructor functions on existing objects
+    
+      Allows reusing initialization logic.
+    4. Inheritance / Polymorphism
+    
+      Used to implement classical or functional inheritance.
+    5. Avoiding code duplication
+    
+      E.g., borrow array methods for array-like objects.
 
    Polyfill
    ```js
