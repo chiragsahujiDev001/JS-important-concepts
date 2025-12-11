@@ -128,14 +128,12 @@ setTimeout only schedules something once. But when you use it inside events that
 Debouncing is a strategy to enhance performance by ensuring a function runs only after a specified delay. If invoked repeatedly, the delay resets. In simpler terms, debouncing transforms a function so that it executes after a specified period of inactivity.
 
 When to Use Debouncing?
-Search Inputs:
-Avoid firing a search query on every keystroke, which can overwhelm your server with requests.
-
-Resize Events:
-Prevent multiple recalculations during window resizing, which can slow down your application.
-
-Scroll Events:
-Optimize tasks like infinite scrolling or lazy loading, ensuring that they only trigger after scrolling has stopped.
+  - Search Inputs:
+      Avoid firing a search query on every keystroke, which can overwhelm your server with   requests.
+  - Resize Events:
+      Prevent multiple recalculations during window resizing, which can slow down your application.
+  - Scroll Events:
+      Optimize tasks like infinite scrolling or lazy loading, ensuring that they only trigger after scrolling has stopped.
 
 Debounce Implementation
 ```js
