@@ -148,13 +148,13 @@ export default function debounce(func, wait) {
 
 ```
 Without Debounce
-A (call) → P (call) → I (call) → space (call)
+- A (call) → P (call) → I (call) → space (call)
 
 With debounce
-Type → Reset timer
-Type → Reset timer
-Type → Reset timer
-STOP typing → After delay → fn runs
+- Type → Reset timer
+- Type → Reset timer
+- Type → Reset timer
+- STOP typing → After delay → fn runs
 
 We can use debounce in react by creating custom hook if we want to debounce a value
 
@@ -172,19 +172,19 @@ export default function debounce(value, delay) {
 
 ```
 Whenever value changes (e.g., user types in an input):
-React runs this useEffect.
-Inside it, we start a new timer via setTimeout.
-That timer will, after delay ms, set debouncedValue to the latest value.
+- React runs this useEffect.
+- Inside it, we start a new timer via setTimeout.
+- That timer will, after delay ms, set debouncedValue to the latest value.
 
 This cleanup runs before the next effect call.
 
 So if the user types:
-"c" → effect runs → timer A starts
-"ch" → value changes → effect runs again
-cleanup clears timer A
-new timer B starts
-"chi" → cleanup clears timer B → timer C starts
-…and so on
+- "c" → effect runs → timer A starts
+- "ch" → value changes → effect runs again
+- cleanup clears timer A
+- new timer B starts
+- "chi" → cleanup clears timer B → timer C starts
+- …and so on
 
 ---
 
@@ -246,13 +246,13 @@ export function useThrottle(value, delay) {
 ```
 Flow:
 
-Every time value changes, the effect runs.
-It checks if enough time has passed since the last execution.
-If yes:
-update immediately.
-If no:
-schedule an update after the remaining time.
-Cleanup ensures pending updates don’t stack — just like throttle behavior demands.
+- Every time value changes, the effect runs.
+- It checks if enough time has passed since the last execution.
+    - If yes:
+      update immediately.
+    - If no:
+      schedule an update after the remaining time.
+- Cleanup ensures pending updates don’t stack — just like throttle behavior demands.
 
 ---
 
@@ -274,16 +274,15 @@ Array.prototype.map = (callbackFn,thisArg) => {// map takes callback(value,i,arr
 ```
 so if we take example : [1,2,3].map(x => x * 2)
 
-This is how polyfill will work 
-
-this = [1, 2, 3]
-callback = x => x * 2
-thisArg = undefined
+This is how polyfill will work :- 
+- this = [1, 2, 3]
+- callback = x => x * 2
+- thisArg = undefined
 
 So internally, callback is invoked as:
-callback.call(undefined, 1, 0, [1,2,3]) → 2
-callback.call(undefined, 2, 1, [1,2,3]) → 4
-callback.call(undefined, 3, 2, [1,2,3]) → 6
+- callback.call(undefined, 1, 0, [1,2,3]) → 2
+- callback.call(undefined, 2, 1, [1,2,3]) → 4
+- callback.call(undefined, 3, 2, [1,2,3]) → 6
 
 ---
 
@@ -333,39 +332,39 @@ Array.prototype.reduce = (callback,initalValue) => {
 
 Ways of flattening the array 
   1. Array.prototype.flat()
-    ```js
-    const arr = [1, [2, 3], [4, [5, 6]]];
-    console.log(arr.flat(1));
-    // [1, 2, 3, 4, [5, 6]]
-    console.log(arr.flat(2)); 
-    // [1, 2, 3, 4, 5, 6]
-    console.log(arr.flat(Infinity));//for all levels
-    ```
+     ```js
+     const arr = [1, [2, 3], [4, [5, 6]]];
+     console.log(arr.flat(1));
+     // [1, 2, 3, 4, [5, 6]]
+     console.log(arr.flat(2)); 
+     // [1, 2, 3, 4, 5, 6]
+     console.log(arr.flat(Infinity));//for all levels
+     ```
   2. Recursive method
-    ```js
-    const flatten = (arr) => {
-      let newArr=[]
-      for(let x in arr){
-        if(Array.isArray(x)){
-          newArr = newArr.concat(flatten(x))
-        }else{
-          newArr.push(x)
+      ```js
+      const flatten = (arr) => {
+        let newArr=[]
+        for(let x in arr){
+          if(Array.isArray(x)){
+            newArr = newArr.concat(flatten(x))
+          }else{
+            newArr.push(x)
+          }
         }
+        return newArr
       }
-      return newArr
-    }
-    ```
-    Working :-
-    flatten([1, [2, 3], [4, [5, 6]]])
-      1 → not array → result = [1]
-      [2, 3] → is array → call flatten([2,3]) → returns [2,3]
-        result = [1].concat([2,3]) = [1,2,3]
-      [4, [5, 6]] → is array → call flatten([4, [5,6]])
-        Inside that:
-          4 → not array → [4]
-          [5,6] → is array → flatten([5,6]) → [5,6]
-          returns [4,5,6]
-        outer result: [1,2,3].concat([4,5,6]) = [1,2,3,4,5,6]
+      ```
+  - Working :-
+      - flatten([1, [2, 3], [4, [5, 6]]])
+        - 1 → not array → result = [1]
+        - [2, 3] → is array → call flatten([2,3]) → returns [2,3]
+          - result = [1].concat([2,3]) = [1,2,3]
+        - [4, [5, 6]] → is array → call flatten([4, [5,6]])
+          - Inside that:
+            - 4 → not array → [4]
+            - [5,6] → is array → flatten([5,6]) → [5,6]
+            - returns [4,5,6]
+          - outer result: [1,2,3].concat([4,5,6]) = [1,2,3,4,5,6]
 
   3. Using Array.reduce
     ```js
@@ -378,45 +377,43 @@ Ways of flattening the array
     }, []);
     ```
   4. Using Stack(iteratively)
-    ```js
+     ```js
       function flattenIterative(arr) {
         const stack = [...arr]; // clone original
         const result = [];
 
         while (stack.length) {
           const value = stack.pop();
-
           if (Array.isArray(value)) {
             stack.push(...value); // unpack inner array back into stack
           } else {
             result.push(value);   // collect value
           }
         }
-
         return result.reverse(); // fix order
       }
-    ```
-    Working :-
+     ```
+   - Working :-
       arr=[1, [2, 3], [4, [5, 6]]]
-      pop() → [4,[5,6]] (array)
-      → stack.push(4, [5,6])
-      stack: [1, [2,3], 4, [5,6]]
-      pop() → [5,6] (array)
-      → stack.push(5, 6)
-      stack: [1, [2,3], 4, 5, 6]
-      pop() → 6 (value)
-      → result = [6]
-      pop() → 5
-      → result = [6,5]
-      pop() → 4
-      → result = [6,5,4]
-      pop() → [2,3] (array)
-      → stack.push(2,3)
-      stack: [1, 2, 3]
-      pop() → 3 → result [6,5,4,3]
-      pop() → 2 → result [6,5,4,3,2]
-      pop() → 1 → result [6,5,4,3,2,1]
-      result.reverse() -> [1,2,3,4,5,6]
+      - pop() → [4,[5,6]] (array)
+      - → stack.push(4, [5,6])
+      - stack: [1, [2,3], 4, [5,6]]
+      - pop() → [5,6] (array)
+      - → stack.push(5, 6)
+      - stack: [1, [2,3], 4, 5, 6]
+      - pop() → 6 (value)
+      - → result = [6]
+      - pop() → 5
+      - → result = [6,5]
+      - pop() → 4
+      - → result = [6,5,4]
+      - pop() → [2,3] (array)
+      - → stack.push(2,3)
+      - stack: [1, 2, 3]
+      - pop() → 3 → result [6,5,4,3]
+      - pop() → 2 → result [6,5,4,3,2]
+      - pop() → 1 → result [6,5,4,3,2,1]
+      - result.reverse() -> [1,2,3,4,5,6]
 
 ---
 
@@ -511,12 +508,13 @@ In currying every call should return a new function until all required arguments
 ## 22. Promises Implementation
 
 A Promise is a JavaScript object that represents a value that will be available in the future (or an error if something goes wrong).
+
 A Promise has 3 states:
-    pending → initial state
-    fulfilled → operation completed successfully
-    rejected → operation failed
-.then() -> what to do after promise is fulfilled
-.catch() -> do this if promise is rejected
+    - pending → initial state
+    - fulfilled → operation completed successfully
+    - rejected → operation failed
+- .then() -> what to do after promise is fulfilled
+- .catch() -> do this if promise is rejected
 
 Promise polyfill
 ```js
@@ -651,67 +649,68 @@ p.then((value) => {
   });
 ```
 Working on above code :-
-constructor runs:
-state = "pending"
-value = undefined
-handlers = []
+- constructor runs:
+  - state = "pending"
+  - value = undefined
+  - handlers = []
 
-executor(resolve, reject) is called:
-Logs: "Executor runs"
-Sets a timeout for 1s → then calls resolve("Step 1 done").
+- executor(resolve, reject) is called:
+  - Logs: "Executor runs"
+  - Sets a timeout for 1s → then calls resolve("Step 1 done").
 
-then creates a new promise (call it p2).
-Adds a handler object to p.handlers:
-p is still pending, so runHandlers doesn’t run yet.
+- then creates a new promise (call it p2).
+- Adds a handler object to p.handlers:
+- p is still pending, so runHandlers doesn’t run yet.
 
-After 1 second → resolve("Step 1 done")
-  updateState(FULFILLED, "Step 1 done"):
-  state becomes "fulfilled"
-  value becomes "Step 1 done"
-  calls runHandlers()
+- After 1 second → resolve("Step 1 done")
+   - updateState(FULFILLED, "Step 1 done"):
+   - state becomes "fulfilled"
+   - value becomes "Step 1 done"
+   - calls runHandlers()
 
-Inside runHandlers:
-  Async via setTimeout(..., 0) → then:
-  Takes the first handler from p.handlers
-  Since p.state === "fulfilled":
-    Calls onFulfilled(this.value) -> logs -> Then 1: Step 1 done
-    Returns "Step 1 done + Step 2"
-    Calls resolve_of_p2("Step 1 done + Step 2")
-      So p2 becomes fulfilled with that value.
+- Inside runHandlers:
+  - Async via setTimeout(..., 0) → then:
+  - Takes the first handler from p.handlers
+  - Since p.state === "fulfilled":
+    - Calls onFulfilled(this.value) -> logs -> Then 1: Step 1 done
+    - Returns "Step 1 done + Step 2"
+    - Calls resolve_of_p2("Step 1 done + Step 2")
+      - So p2 becomes fulfilled with that value.
 
-then creates promise p3.
-Adds a handler in p2.handlers with onFulfilled being the second then callback.
+- then creates promise p3.
+- Adds a handler in p2.handlers with onFulfilled being the second then callback.
 
-So p2.runHandlers() executes (async):
-p2.state === "fulfilled":
-    onFulfilled(value) is called with "Step 1 done + Step 2"
-      Logs: "Then 2: Step 1 done + Step 2"
-      Then throws an error → caught by try...catch in runHandlers
-    That catch calls reject_of_p3(error) → so p3 becomes rejected.
-.catch is then(undefined, onRejected), so:
-  Adds error handler to p3.handlers.
+- So p2.runHandlers() executes (async):
+  - p2.state === "fulfilled":
+    - onFulfilled(value) is called with "Step 1 done + Step 2"
+      - Logs: "Then 2: Step 1 done + Step 2"
+      - Then throws an error → caught by try...catch in runHandlers
+    - That catch calls reject_of_p3(error) → so p3 becomes rejected.
+  - .catch is then(undefined, onRejected), so:
+  - Adds error handler to p3.handlers.
 
-Since p3 is already rejected:
-p3.runHandlers() runs.
-state === "rejected":
-  Runs onRejected(this.value):
-    Logs: "Caught: Something broke in Step 3"
+- Since p3 is already rejected:
+  - p3.runHandlers() runs.
+  - state === "rejected":
+  - Runs onRejected(this.value):
+    - Logs: "Caught: Something broke in Step 3"
 
-Final Output:
-  Executor runs
-  (after 1 second) Then 1: Step 1 done
-  Then 2: Step 1 done + Step 2
-  Caught: Something broke in Step 3
+- Final Output:
+  - Executor runs
+  - (after 1 second) Then 1: Step 1 done
+  - Then 2: Step 1 done + Step 2
+  - Caught: Something broke in Step 3
 
 ---
 
 ## 23. Promise.all and other methods
   1. Promise.all()
-    Waits for all promises to fulfill, then returns an array of results.
-      If any promise rejects → the whole thing rejects immediately.
 
-    Polyfill
-    ```js
+  Waits for all promises to fulfill, then returns an array of results.
+     - If any promise rejects → the whole thing rejects immediately.
+
+  Polyfill
+  ```js
     Promise.myAll = function(promises){
       return new Promise((resolve,reject)=>{
         const res = []
@@ -735,14 +734,15 @@ Final Output:
         })
       })
     }
-    ```
+  ```
 
   2. Promise.allSettled()
-    Waits for all promises to finish, regardless of success or failure and returns array of objects.
-    (e.g., multiple API calls where you don't want one failure to stop others).
 
-    Polyfill
-    ```js
+  Waits for all promises to finish, regardless of success or failure and returns array of   objects.
+    - (e.g., multiple API calls where you don't want one failure to stop others).
+
+  Polyfill
+  ```js
     Promise.myAllSettled = function (promises) {
       return new Promise((resolve) => {
         const results = [];
@@ -770,14 +770,15 @@ Final Output:
       });
     };
 
-    ```
+  ```
   
   3. Promise.race()
-    Returns a promise that resolves or rejects as soon as the FIRST promise settles.
-    If the first promise to finish is a rejection, it rejects.
+  
+  Returns a promise that resolves or rejects as soon as the FIRST promise settles.
+    - If the first promise to finish is a rejection, it rejects.
 
-    Polyfill
-    ```js
+  Polyfill
+  ```js
     Promise.myRace = function (promises) {
       return new Promise((resolve, reject) => {
         // If empty array, NEVER resolve or reject (matches native behavior)
@@ -792,14 +793,14 @@ Final Output:
       });
     };
 
-    ```
+  ```
   
   4. Promise.any()
-    Waits for the first fulfilled promise.
-      Ignores rejections
-      If all promises reject → rejects with AggregateError
-    Polyfill
-    ```js
+  Waits for the first fulfilled promise.
+      - Ignores rejections
+      - If all promises reject → rejects with AggregateError
+  Polyfill
+  ```js
     Promise.myAny = function (promises) {
       return new Promise((resolve, reject) => {
         let errors = [];
@@ -829,7 +830,7 @@ Final Output:
       });
     };
 
-    ```
+  ```
 ---
 
 ## 24. Implement setIntercal using setTimeout
@@ -839,10 +840,10 @@ If callback is slow → intervals overlap → causes bugs.
 
 Therefore this recursive setTimeout approach is used in which:
 
-👉 Next execution happens only after callback finishes.
-👉 No overlapping.
-👉 Perfect timing accuracy.
-👉 Stop control is easy.
+- 👉 Next execution happens only after callback finishes.
+- 👉 No overlapping.
+- 👉 Perfect timing accuracy.
+- 👉 Stop control is easy.
 
 ```js
 function mySetInterval(callback, delay) {
@@ -885,21 +886,21 @@ setTimeout(() => {
 
 ## 25. Call,Apply and Bind
   1. call()
-    call() is a built-in method available on every JavaScript function.
+  - call() is a built-in method available on every JavaScript function.
     It allows you to manually set the value of this and invoke the function immediately.
         1. Borrowing methods between objects
-        You can use one object’s method on another object.
+        - You can use one object’s method on another object.
         2. Controlling this inside a function
-        Helps when the function is not inside an object, or context is lost.
+        - Helps when the function is not inside an object, or context is lost.
         3. Using constructor functions on existing objects
-        Allows reusing initialization logic.
+        - Allows reusing initialization logic.
         4. Inheritance / Polymorphism
-        Used to implement classical or functional inheritance.
+        - Used to implement classical or functional inheritance.
         5. Avoiding code duplication
-        E.g., borrow array methods for array-like objects.
+        - E.g., borrow array methods for array-like objects.
 
-    Polyfill
-    ```js
+   Polyfill
+   ```js
     Function.prototype.myCall = function (context,...args){
       if(typeof this !== 'function'){
         throw new error(this + "mycall must be called on function")
@@ -908,15 +909,15 @@ setTimeout(() => {
       context.fn = this
       context.fn(...args)
     }
-    ```
+   ```
   2. apply()
-    apply() is similar to call(), but the difference is in how you pass arguments.
+  - apply() is similar to call(), but the difference is in how you pass arguments.
     Use apply() when:
-      You already have arguments in an array
-      You want to operate on array-like objects
-      You want to call a function with a custom this and array arguments
-    Polyfill
-    ```js
+      - You already have arguments in an array
+      - You want to operate on array-like objects
+      - You want to call a function with a custom this and array arguments
+  Polyfill
+  ```js
     Function.prototype.myApply = function (context,args=[]){
       if(typeof this !== 'function'){
         throw new error(this + "mycall must be called on function")
@@ -929,14 +930,14 @@ setTimeout(() => {
       context.fn = this
       context.fn(...args)
     }
-    ```
+  ```
   3. bind()
-    bind() creates a new function with:
-      A fixed this context
-      Optional pre-set (partial) arguments
-      Does NOT execute immediately (unlike call and apply)
-    Use cases:
-      1.Fixing this inside callback functions
+    - bind() creates a new function with:
+      - A fixed this context
+      - Optional pre-set (partial) arguments
+      - Does NOT execute immediately (unlike call and apply)
+    - Use cases:
+      1. Fixing this inside callback functions
       ```js
       const user = {
         name: "Chirag",
@@ -949,7 +950,7 @@ setTimeout(() => {
         user.greet();
         // Hello Chirag
       ```
-      2.Borrowing methods with fixed context
+      2. Borrowing methods with fixed context
       ```js
       const person = {
         name: "Chirag",
@@ -960,7 +961,7 @@ setTimeout(() => {
       const printer = person.print.bind({ name: "Rahul" });
       printer();  // Rahul
       ```
-      3.Partial function application (Currying-like behavior)
+      3. Partial function application (Currying-like behavior)
       ```js
       function multiply(a, b) {
         return a * b;
@@ -970,7 +971,7 @@ setTimeout(() => {
       const triple = multiply.bind(null, 3);
       console.log(triple(10)); // 30
       ```
-      4.Event handlers in JavaScript
+      4. Event handlers in JavaScript
       ```js
       const obj = {
         name: "Chirag",
@@ -981,7 +982,7 @@ setTimeout(() => {
       document.getElementById("btn")
         .addEventListener("click", obj.handleClick.bind(obj));
       ```
-      5.Reuse class methods while preserving context
+      5. Reuse class methods while preserving context
       ```js
       class User {
         constructor(name) {
@@ -997,7 +998,7 @@ setTimeout(() => {
       fn(); // Hi Chirag
 
       ```
-      6.In React
+      6. In React
       ```js
       class App extends React.Component {
         constructor() {
@@ -1014,7 +1015,7 @@ setTimeout(() => {
         }
       }
       ```
-      7.Prevent losing this when passing functions as references
+      7. Prevent losing this when passing functions as references
       ```js
       const obj = {
         x: 100,
@@ -1030,8 +1031,8 @@ setTimeout(() => {
       console.log(boundGetX()); // 100
 
       ```
-    Polyfill
-    ```js
+  Polyfill
+  ```js
     Function.prototype.myBind = function (context,...args){
       if(typeof this !== 'function'){
         throw new error(this + "mycall must be called on function")
@@ -1042,7 +1043,7 @@ setTimeout(() => {
         return context.fn(...args,...newArgs)
       }
     }
-    ```
+  ```
 ---
 
 ## 26. Memoize function 
