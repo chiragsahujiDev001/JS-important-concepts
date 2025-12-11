@@ -354,28 +354,28 @@ Ways of flattening the array
         return newArr
       }
       ```
-  - Working :-
-      - flatten([1, [2, 3], [4, [5, 6]]])
-        - 1 → not array → result = [1]
-        - [2, 3] → is array → call flatten([2,3]) → returns [2,3]
-          - result = [1].concat([2,3]) = [1,2,3]
-        - [4, [5, 6]] → is array → call flatten([4, [5,6]])
-          - Inside that:
-            - 4 → not array → [4]
-            - [5,6] → is array → flatten([5,6]) → [5,6]
-            - returns [4,5,6]
-          - outer result: [1,2,3].concat([4,5,6]) = [1,2,3,4,5,6]
+      - Working :-
+        - flatten([1, [2, 3], [4, [5, 6]]])
+          - 1 → not array → result = [1]
+          - [2, 3] → is array → call flatten([2,3]) → returns [2,3]
+            - result = [1].concat([2,3]) = [1,2,3]
+          - [4, [5, 6]] → is array → call flatten([4, [5,6]])
+            - Inside that:
+              - 4 → not array → [4]
+              - [5,6] → is array → flatten([5,6]) → [5,6]
+              - returns [4,5,6]
+            - outer result: [1,2,3].concat([4,5,6]) = [1,2,3,4,5,6]
 
   3. Using Array.reduce
-    ```js
-    const flattenReduce = (arr) =>
-      arr.reduce((acc, item) => {
-        if (Array.isArray(item)) {
-          return acc.concat(flattenReduce(item));
-        }
-      return acc.concat(item);
-    }, []);
-    ```
+     ```js
+        const flattenReduce = (arr) =>
+          arr.reduce((acc, item) => {
+            if (Array.isArray(item)) {
+              return acc.concat(flattenReduce(item));
+            }
+          return acc.concat(item);
+        }, []);
+     ```
   4. Using Stack(iteratively)
      ```js
       function flattenIterative(arr) {
@@ -393,27 +393,27 @@ Ways of flattening the array
         return result.reverse(); // fix order
       }
      ```
-   - Working :-
-      arr=[1, [2, 3], [4, [5, 6]]]
-      - pop() → [4,[5,6]] (array)
-      - → stack.push(4, [5,6])
-      - stack: [1, [2,3], 4, [5,6]]
-      - pop() → [5,6] (array)
-      - → stack.push(5, 6)
-      - stack: [1, [2,3], 4, 5, 6]
-      - pop() → 6 (value)
-      - → result = [6]
-      - pop() → 5
-      - → result = [6,5]
-      - pop() → 4
-      - → result = [6,5,4]
-      - pop() → [2,3] (array)
-      - → stack.push(2,3)
-      - stack: [1, 2, 3]
-      - pop() → 3 → result [6,5,4,3]
-      - pop() → 2 → result [6,5,4,3,2]
-      - pop() → 1 → result [6,5,4,3,2,1]
-      - result.reverse() -> [1,2,3,4,5,6]
+     - Working :-
+        arr=[1, [2, 3], [4, [5, 6]]]
+        - pop() → [4,[5,6]] (array)
+        - → stack.push(4, [5,6])
+        - stack: [1, [2,3], 4, [5,6]]
+        - pop() → [5,6] (array)
+        - → stack.push(5, 6)
+        - stack: [1, [2,3], 4, 5, 6]
+        - pop() → 6 (value)
+        - → result = [6]
+        - pop() → 5
+        - → result = [6,5]
+        - pop() → 4
+        - → result = [6,5,4]
+        - pop() → [2,3] (array)
+        - → stack.push(2,3)
+        - stack: [1, 2, 3]
+        - pop() → 3 → result [6,5,4,3]
+        - pop() → 2 → result [6,5,4,3,2]
+        - pop() → 1 → result [6,5,4,3,2,1]
+        - result.reverse() -> [1,2,3,4,5,6]
 
 ---
 
@@ -510,9 +510,9 @@ In currying every call should return a new function until all required arguments
 A Promise is a JavaScript object that represents a value that will be available in the future (or an error if something goes wrong).
 
 A Promise has 3 states:
-    - pending → initial state
-    - fulfilled → operation completed successfully
-    - rejected → operation failed
+  - pending → initial state
+  - fulfilled → operation completed successfully
+  - rejected → operation failed
 - .then() -> what to do after promise is fulfilled
 - .catch() -> do this if promise is rejected
 
@@ -706,131 +706,131 @@ Working on above code :-
 ## 23. Promise.all and other methods
   1. Promise.all()
 
-  Waits for all promises to fulfill, then returns an array of results.
+     Waits for all promises to fulfill, then returns an array of results.
      - If any promise rejects → the whole thing rejects immediately.
 
-  Polyfill
-  ```js
-    Promise.myAll = function(promises){
-      return new Promise((resolve,reject)=>{
-        const res = []
-        const comp = 0
-        if(promise.length===0){
-          return resolve([])
+     Polyfill
+      ```js
+        Promise.myAll = function(promises){
+          return new Promise((resolve,reject)=>{
+            const res = []
+            const comp = 0
+            if(promise.length===0){
+              return resolve([])
+            }
+            promises.forEach((promise,i)=>{
+              Promise.resolve(promise)
+                .then((value)=>{
+                  res[i] = value
+                  comp++
+    
+                  if(comp === promises.length){
+                    resolve(res)
+                  }
+                })
+                .catch((err)=>{
+                  reject(err)
+                })
+            })
+          })
         }
-        promises.forEach((promise,i)=>{
-          Promise.resolve(promise)
-            .then((value)=>{
-              res[i] = value
-              comp++
+      ```
 
-              if(comp === promises.length){
-                resolve(res)
-              }
-            })
-            .catch((err)=>{
-              reject(err)
-            })
-        })
-      })
-    }
-  ```
+  3. Promise.allSettled()
 
-  2. Promise.allSettled()
+      Waits for all promises to finish, regardless of success or failure and returns array of        objects.
+      - (e.g., multiple API calls where you don't want one failure to stop others).
 
-  Waits for all promises to finish, regardless of success or failure and returns array of   objects.
-    - (e.g., multiple API calls where you don't want one failure to stop others).
-
-  Polyfill
-  ```js
-    Promise.myAllSettled = function (promises) {
-      return new Promise((resolve) => {
-        const results = [];
-        let completed = 0;
-
-        if (promises.length === 0) {
-          return resolve([]);
-        }
-
-        promises.forEach((promise, index) => {
-          Promise.resolve(promise)
-            .then((value) => {
-              results[index] = { status: "fulfilled", value };
-            })
-            .catch((reason) => {
-              results[index] = { status: "rejected", reason };
-            })
-            .finally(() => {
-              completed++;
-              if (completed === promises.length) {
-                resolve(results);
-              }
+      Polyfill
+      ```js
+        Promise.myAllSettled = function (promises) {
+          return new Promise((resolve) => {
+            const results = [];
+            let completed = 0;
+    
+            if (promises.length === 0) {
+              return resolve([]);
+            }
+    
+            promises.forEach((promise, index) => {
+              Promise.resolve(promise)
+                .then((value) => {
+                  results[index] = { status: "fulfilled", value };
+                })
+                .catch((reason) => {
+                  results[index] = { status: "rejected", reason };
+                })
+                .finally(() => {
+                  completed++;
+                  if (completed === promises.length) {
+                    resolve(results);
+                  }
+                });
             });
-        });
-      });
-    };
-
-  ```
+          });
+        };
+    
+      ```
   
   3. Promise.race()
   
-  Returns a promise that resolves or rejects as soon as the FIRST promise settles.
-    - If the first promise to finish is a rejection, it rejects.
+      Returns a promise that resolves or rejects as soon as the FIRST promise settles.
+      - If the first promise to finish is a rejection, it rejects.
 
-  Polyfill
-  ```js
-    Promise.myRace = function (promises) {
-      return new Promise((resolve, reject) => {
-        // If empty array, NEVER resolve or reject (matches native behavior)
-        if (promises.length === 0) return;
-
-        promises.forEach((promise) => {
-          // Convert non-promises into resolved promises
-          Promise.resolve(promise)
-            .then(resolve)   // first to resolve wins
-            .catch(reject);  // first to reject wins
-        });
-      });
-    };
-
-  ```
+      Polyfill
+      ```js
+        Promise.myRace = function (promises) {
+          return new Promise((resolve, reject) => {
+            // If empty array, NEVER resolve or reject (matches native behavior)
+            if (promises.length === 0) return;
+    
+            promises.forEach((promise) => {
+              // Convert non-promises into resolved promises
+              Promise.resolve(promise)
+                .then(resolve)   // first to resolve wins
+                .catch(reject);  // first to reject wins
+            });
+          });
+        };
+    
+      ```
   
   4. Promise.any()
-  Waits for the first fulfilled promise.
-      - Ignores rejections
-      - If all promises reject → rejects with AggregateError
-  Polyfill
-  ```js
-    Promise.myAny = function (promises) {
-      return new Promise((resolve, reject) => {
-        let errors = [];
-        let rejectedCount = 0;
-
-        // If empty array → reject with AggregateError (like native behavior)
-        if (promises.length === 0) {
-          return reject(new AggregateError([], "All promises were rejected"));
-        }
-
-        promises.forEach((promise, index) => {
-          Promise.resolve(promise)
-            .then((value) => {
-              // First fulfilled promise wins
-              resolve(value);
-            })
-            .catch((error) => {
-              errors[index] = error;
-              rejectedCount++;
-
-              // If ALL promises reject → reject with AggregateError
-              if (rejectedCount === promises.length) {
-                reject(new AggregateError(errors, "All promises were rejected"));
-              }
+     Waits for the first fulfilled promise.
+     - Ignores rejections
+     - If all promises reject → rejects with AggregateError
+     Polyfill
+      ```js
+        Promise.myAny = function (promises) {
+          return new Promise((resolve, reject) => {
+            let errors = [];
+            let rejectedCount = 0;
+    
+            // If empty array → reject with AggregateError (like native behavior)
+            if (promises.length === 0) {
+              return reject(new AggregateError([], "All promises were rejected"));
+            }
+    
+            promises.forEach((promise, index) => {
+              Promise.resolve(promise)
+                .then((value) => {
+                  // First fulfilled promise wins
+                  resolve(value);
+                })
+                .catch((error) => {
+                  errors[index] = error;
+                  rejectedCount++;
+    
+                  // If ALL promises reject → reject with AggregateError
+                  if (rejectedCount === promises.length) {
+                    reject(new AggregateError(errors, "All promises were rejected"));
+                  }
+                });
             });
-        });
-      });
-    };
-
-  ```
+          });
+        };
+    
+      ```
 ---
 
 ## 24. Implement setIntercal using setTimeout
@@ -889,15 +889,15 @@ setTimeout(() => {
   - call() is a built-in method available on every JavaScript function.
     It allows you to manually set the value of this and invoke the function immediately.
         1. Borrowing methods between objects
-        - You can use one object’s method on another object.
+          - You can use one object’s method on another object.
         2. Controlling this inside a function
-        - Helps when the function is not inside an object, or context is lost.
+          - Helps when the function is not inside an object, or context is lost.
         3. Using constructor functions on existing objects
-        - Allows reusing initialization logic.
+          - Allows reusing initialization logic.
         4. Inheritance / Polymorphism
-        - Used to implement classical or functional inheritance.
+          - Used to implement classical or functional inheritance.
         5. Avoiding code duplication
-        - E.g., borrow array methods for array-like objects.
+          - E.g., borrow array methods for array-like objects.
 
    Polyfill
    ```js
@@ -932,11 +932,11 @@ setTimeout(() => {
     }
   ```
   3. bind()
-    - bind() creates a new function with:
-      - A fixed this context
-      - Optional pre-set (partial) arguments
-      - Does NOT execute immediately (unlike call and apply)
-    - Use cases:
+  - bind() creates a new function with:
+    - A fixed this context
+    - Optional pre-set (partial) arguments
+    - Does NOT execute immediately (unlike call and apply)
+  - Use cases:
       1. Fixing this inside callback functions
       ```js
       const user = {
